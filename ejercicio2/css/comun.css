@@ -1,0 +1,28 @@
+			/*  Selectores de etiqueta */
+			h1 {
+				text-align: center;
+			}	
+
+			/* Selectores de clase */
+			.tabla-centrada {
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.tabla-datos th {
+				background-color: gray;
+			}
+
+			.tabla-datos tr:nth-child(odd) td {
+				background-color: darkgray;
+			}
+
+			.tabla-datos tr:nth-child(even) td {
+				background-color: lightgray;
+			}
+
+			.tabla-datos a {
+				color: black;
+			}
+
+

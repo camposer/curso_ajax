@@ -3,78 +3,70 @@
 	<head>
 		<title>Productos</title>
 		<meta charset="utf-8">
-		<style>
-			/*  Selectores de etiqueta */
-			h1 {
-				text-align: center;
-			}	
+		<link rel="stylesheet" href="css/comun.css"> 
+		<link rel="stylesheet" href="css/producto.css"> 
+		<script src="js/producto.js"></script>
+		<script src="js/productoUtil.js"></script>
+		<script>
+			var productoUtil = new ProductoUtil();
 
-			/* Selectores de clase */
-			.tabla-centrada {
-				margin-left: auto;
-				margin-right: auto;
-			}
+			var initProductoUtil = function() {
+				productoUtil.agregar(new Producto("TV", 500));
+				productoUtil.agregar(new Producto("Cámara", 200));
+				productoUtil.agregar(new Producto("DVD", 300));
+			};
 
-			.tabla-datos th {
-				background-color: gray;
-			}
+			var imprimirTabla = function() { // TODO Refactorizar con JSRender
+				var tbody = document.getElementById("tbodyTablaProductos");
+				var productos = productoUtil.obtenerTodos();
+				var html = "";
 
-			.tabla-datos tr:nth-child(odd) td {
-				background-color: darkgray;
-			}
+				for (var i in productos) {
+					var p = productos[i];
 
-			.tabla-datos tr:nth-child(even) td {
-				background-color: lightgray;
-			}
+					html += "<tr>";
+					html += "<td>" + p.getId() + "</td>";
+					html += "<td>" + p.getNombre() + "</td>";
+					html += "<td>" + p.getPrecio() + "</td>";
+					html += "<td><a href='#'>mostrar</a></td>";
+					html += "<td><a href='#'>eliminar</a></td>";
+					html += "</tr>";
+				}
+				
+				tbody.innerHTML = html;
+			};
 
-			.tabla-datos a {
-				color: black;
-			}
+			var agregar = function() {
+				var nombre = document.getElementById("nombre").value;
+				var precio = document.getElementById("precio").value;
 
-			/* Selectores de identificador */
-			#tabla-productos, 
-			#tabla-productos tr {
-				border: solid black 1px;
-			}
-		
-			#tabla-productos td {
-				border: dashed black 1px;
-			}
+				if (nombre && precio) { // TODO Mejorar validaciones
+					productoUtil.agregar(new Producto(nombre, precio));
+					imprimirTabla();
+				}
+			};
 
-			#tabla-productos td:nth-child(1),
-			#tabla-productos td:nth-child(3),
-			#tabla-productos td:nth-child(4),
-			#tabla-productos td:nth-child(5) {
-				text-align: center;
-			}
-			
-			#tabla-form tr:last-child > td {
-				text-align: center;
-			}
-
-			/* #tabla-form input */
-			#tabla-form input[type=text],
-			#tabla-form input[type=number] {
-				width: 10em;
-			}
-
-		</style>
+			var init = function() {
+				initProductoUtil();
+				imprimirTabla();
+			};
+		</script>
 	</head>
-	<body>
+	<body onload="init()">
 		<h1>Productos</h1>
 		<table id="tabla-form" class="tabla-centrada">
 			<tr>
 				<td>Nombre</td>
-				<td><input type="text" name="nombre"></td>
+				<td><input type="text" name="nombre" id="nombre"></td>
 			</tr>
 			<tr>
 				<td>Precio</td>
-				<td><input type="number" name="precio"></td>
+				<td><input type="number" name="precio" id="precio"></td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<input type="button" value="Modificar">
-					<input type="button" value="Agregar">
+					<input type="button" value="Agregar" onclick="agregar()">
 				</td>
 			</tr>
 		</table>
@@ -87,32 +79,11 @@
 					<th>Id</th>
 					<th>Nombre</th>
 					<th>Precio</th>
-					<th>Modificar</th>
+					<th>Mostrar</th>
 					<th>Eliminar</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td>Portátiles</td>
-					<td>200</td>
-					<td><a href="#">modificar</a></td>
-					<td><a href="#">eliminar</a></td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>Cámaras</td>
-					<td>150</td>
-					<td><a href="#">modificar</a></td>
-					<td><a href="#">eliminar</a></td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>DVD</td>
-					<td>300</td>
-					<td><a href="#">modificar</a></td>
-					<td><a href="#">eliminar</a></td>
-				</tr>
+			<tbody id="tbodyTablaProductos">
 			</tbody>
 		</table>
 	</body>
