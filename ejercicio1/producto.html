@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="producto.js"></script>		
+		<script src="productoUtil.js"></script>
+		<script>
+			var productoUtil = new ProductoUtil();
+			
+			var imprimir = function() {
+				var productos = productoUtil.obtenerTodos();
+				for (var i in productos)
+					document.write(productos[i] + "<br>");
+			};
+
+			// AGREGAR
+			productoUtil.agregar(new Producto("TV", 500));
+			productoUtil.agregar(new Producto("Cámara", 200));
+			productoUtil.agregar(new Producto("DVD", 300));
+			imprimir();
+
+			// MODIFICAR
+			var p = new Producto("TV", 700);
+			p.setId(1);
+			productoUtil.modificar(p);
+			imprimir();
+
+			// ELIMINAR
+			productoUtil.eliminar(1);
+			imprimir();
+
+			// OBTENER
+			document.writeln(productoUtil.obtener(2));
+		</script>		
+	</head>
+	<body>
+
+	</body>
+</html>
+
+
+
+
+
