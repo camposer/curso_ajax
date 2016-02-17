@@ -28,23 +28,62 @@
 					html += "<td>" + p.getId() + "</td>";
 					html += "<td>" + p.getNombre() + "</td>";
 					html += "<td>" + p.getPrecio() + "</td>";
-					html += "<td><a href='#'>mostrar</a></td>";
-					html += "<td><a href='#'>eliminar</a></td>";
+					html += "<td><a href='#' onclick='mostrar(" + p.getId() + ")'>mostrar</a></td>";
+					html += "<td><a href='#' onclick='eliminar(" + p.getId() + ")'>eliminar</a></td>";
 					html += "</tr>";
 				}
 				
 				tbody.innerHTML = html;
 			};
 
-			var agregar = function() {
+			var mostrar = function(id) {
+				var p = productoUtil.obtener(id);
+				var productoId = document.getElementById("productoId");
+				var nombre = document.getElementById("nombre");
+				var precio = document.getElementById("precio");
+
+				if (p) {
+					productoId.value = p.getId();
+					nombre.value = p.getNombre();				
+					precio.value = p.getPrecio();
+				}
+			};
+
+			var eliminar = function(id) {
+				productoUtil.eliminar(id);
+				imprimirTabla();
+			};
+
+			var limpiarForm = function() {
+				var productoId = document.getElementById("productoId");
+				var nombre = document.getElementById("nombre");
+				var precio = document.getElementById("precio");
+
+				productoId.value = "";
+				nombre.value = "";				
+				precio.value = "";
+			};
+
+			var guardar = function() {
+				var productoId = document.getElementById("productoId").value;
 				var nombre = document.getElementById("nombre").value;
 				var precio = document.getElementById("precio").value;
 
 				if (nombre && precio) { // TODO Mejorar validaciones
-					productoUtil.agregar(new Producto(nombre, precio));
+					var p = new Producto(nombre, precio);
+					if (productoId) { // Modificar
+						p.setId(productoId);
+						productoUtil.modificar(p);
+					} else { // Agregar
+						productoUtil.agregar(p);
+					}
+	
+					limpiarForm();
 					imprimirTabla();
 				}
 			};
+
+			var cancelar = limpiarForm;
 
 			var init = function() {
 				initProductoUtil();
@@ -54,6 +93,7 @@
 	</head>
 	<body onload="init()">
 		<h1>Productos</h1>
+		<input type="hidden" id="productoId">
 		<table id="tabla-form" class="tabla-centrada">
 			<tr>
 				<td>Nombre</td>
@@ -65,8 +105,8 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="button" value="Modificar">
-					<input type="button" value="Agregar" onclick="agregar()">
+					<input type="button" value="Cancelar" onclick="cancelar()">
+					<input type="button" value="Guardar" onclick="guardar()">
 				</td>
 			</tr>
 		</table>
