@@ -3,6 +3,7 @@
 
 2.- Copiar la carpeta repository en USER_HOME\.m2\
 	Por ejemplo: C:\Usuarios\rodolfo\.m2\repository
+	- Puede crear la carpeta .m2 utilizando la consola (mkdir .m2)
 
 3.- En Eclipse. En la vista Servers (Perspectiva JEE):
 	- Add new server
@@ -10,9 +11,10 @@
 	- Especificar la carpeta donde se descomprimió el Tomcat
 
 4.- En Eclipse. Clic en File -> Import -> Maven -> Existing Maven Projects
-	- Seleccionar la carpeta del proyecto
+	- Seleccionar la carpeta del proyecto (dentro del repo: producto)
 	- Seleccionar POM
 	- Finalizar
+	- Clic derecho en el proyecto -> Maven -> Update project (selecionar force Upload...)
 
 5.- En Eclipse. En la vista Server (Perspectiva JEE):
 	- Clic derecho sobre el servidor
