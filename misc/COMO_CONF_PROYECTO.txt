@@ -1,0 +1,31 @@
+1.- Descargar y descomprimir curso_ajax.zip y repository.zip de 
+	http://smartcamp.es/~camposer/indra/ajax/materiales
+
+2.- Copiar la carpeta repository en USER_HOME\.m2\
+	Por ejemplo: C:\Usuarios\rodolfo\.m2\repository
+
+3.- En Eclipse. En la vista Servers (Perspectiva JEE):
+	- Add new server
+	- Apache Tomcat 8
+	- Especificar la carpeta donde se descomprimió el Tomcat
+
+4.- En Eclipse. Clic en File -> Import -> Maven -> Existing Maven Projects
+	- Seleccionar la carpeta del proyecto
+	- Seleccionar POM
+	- Finalizar
+
+5.- En Eclipse. En la vista Server (Perspectiva JEE):
+	- Clic derecho sobre el servidor
+	- Add and Remove Projects
+	- Seleccionar el proyecto
+	- Clic derecho y Start
+
+6.- Abrir un navegador y ejecutar:
+	http://localhost:8080/producto/productos
+
+7.- Para probar toda la API Rest
+	- En Firefox: addon Rest Client
+	- En Chrome: plugin Advanced Rest Cliente
+	- Recuerde siempre que envíe documentos JSON (agregar y modificar) especificar el Content-type: application/json
+
+
