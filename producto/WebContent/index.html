@@ -5,41 +5,29 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="css/comun.css"> 
 		<link rel="stylesheet" href="css/producto.css"> 
+		<script src="js/jquery-1.10.2.js"></script>
 		<script src="js/productoUtil.js"></script>
 		<script>
 			var productoUtil = new ProductoUtil();
 
-			var initProductoUtil = function() {
-				productoUtil.agregar({ 
-					nombre: "TV", 
-					precio: 500 
-				});
-				var p = {
-					nombre: "Cámara", 
-					precio: 200
-				};
-				productoUtil.agregar(p);
-				productoUtil.agregar({ nombre: "DVD", precio: 300 });
-			};
-
 			var imprimirTabla = function() { // TODO Refactorizar con JSRender
-				var tbody = document.getElementById("tbodyTablaProductos");
-				var productos = productoUtil.obtenerTodos();
-				var html = "";
+				productoUtil.obtenerTodos(function(productos) {
+					var html = "";
 
-				for (var i in productos) {
-					var p = productos[i];
+					for (var i in productos) {
+						var p = productos[i];
 
-					html += "<tr>";
-					html += "<td>" + p.id + "</td>";
-					html += "<td>" + p.nombre + "</td>";
-					html += "<td>" + p.precio + "</td>";
-					html += "<td><a href='#' onclick='mostrar(" + p.id + ")'>mostrar</a></td>";
-					html += "<td><a href='#' onclick='eliminar(" + p.id + ")'>eliminar</a></td>";
-					html += "</tr>";
-				}
-				
-				tbody.innerHTML = html;
+						html += "<tr>";
+						html += "<td>" + p.id + "</td>";
+						html += "<td>" + p.nombre + "</td>";
+						html += "<td>" + p.precio + "</td>";
+						html += "<td><a href='#' onclick='mostrar(" + p.id + ")'>mostrar</a></td>";
+						html += "<td><a href='#' onclick='eliminar(" + p.id + ")'>eliminar</a></td>";
+						html += "</tr>";
+					}
+					
+					$("#tabla-productos tbody").html(html);					
+				});
 			};
 
 			var mostrar = function(id) {
@@ -94,13 +82,12 @@
 
 			var cancelar = limpiarForm;
 
-			var init = function() {
-				initProductoUtil();
+			$(document).ready(function() {
 				imprimirTabla();
-			};
+			});
 		</script>
 	</head>
-	<body onload="init()">
+	<body>
 		<h1>Productos</h1>
 		<input type="hidden" id="productoId">
 		<table id="tabla-form" class="tabla-centrada">
@@ -132,7 +119,7 @@
 					<th>Eliminar</th>
 				</tr>
 			</thead>
-			<tbody id="tbodyTablaProductos">
+			<tbody>
 			</tbody>
 		</table>
 	</body>

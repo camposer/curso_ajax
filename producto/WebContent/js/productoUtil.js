@@ -1,6 +1,7 @@
 function ProductoUtil() {
 	var productos = [];
 	var contador = 1;
+	var URL_BASE = "/producto/productos";
 
 	var buscarPos = function(id) {
 		for (var i in productos)
@@ -30,8 +31,15 @@ function ProductoUtil() {
 		return (pos) ? productos[pos] : null;
 	};
 
-	this.obtenerTodos = function() { 
-		return productos; 	
+	this.obtenerTodos = function(callback) { 
+		var settings = {
+			type: 'GET',
+			dataType: 'json' // Tipo de respuesta
+		};
+
+		var ajax = $.ajax(URL_BASE, settings);
+		
+		ajax.done(callback);
 	};
 
 }
