@@ -59,24 +59,27 @@
 			};
 
 			var guardar = function() {
-				var productoId = document.getElementById("productoId").value;
-				var nombre = document.getElementById("nombre").value;
-				var precio = document.getElementById("precio").value;
+				var productoId = $("#productoId").val();
+				var nombre = $("#nombre").val();
+				var precio = $("#precio").val();
 
 				if (nombre && precio) { // TODO Mejorar validaciones
+					var callback = function() {
+						limpiarForm();
+						imprimirTabla();
+					};
+					
 					var p = {
 						"nombre": nombre, 
 						'precio': precio
 					};
+					
 					if (productoId) { // Modificar
 						p["id"] = productoId;
-						productoUtil.modificar(p);
+						productoUtil.modificar(p, callback);
 					} else { // Agregar
-						productoUtil.agregar(p);
+						productoUtil.agregar(p, callback);
 					}
-	
-					limpiarForm();
-					imprimirTabla();
 				}
 			};
 

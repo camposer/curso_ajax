@@ -1,23 +1,20 @@
 function ProductoUtil() {
-	var productos = [];
-	var contador = 1;
 	var URL_BASE = "/producto/productos";
 
-	var buscarPos = function(id) {
-		for (var i in productos)
-			if (productos[i].id == id)
-				return i;
+	this.agregar = function(p, callback) {
+		$.ajax(URL_BASE, {
+			type: "POST",
+			data: JSON.stringify(p), 
+			contentType: "application/json"
+		}).done(callback);
 	};
 
-	this.agregar = function(p) {
-		p.id = contador++;
-		productos[productos.length] = p;
-	};
-
-	this.modificar = function(p) {
-		var pos = buscarPos(p.id);
-		if (pos)
-			productos[pos] = p;
+	this.modificar = function(p, callback) {
+		$.ajax(URL_BASE + "/" + p.id, {
+			type: "PUT",
+			data: JSON.stringify(p), 
+			contentType: "application/json"
+		}).done(callback);
 	};
 
 	this.eliminar = function(id) {
