@@ -31,16 +31,18 @@
 			};
 
 			var mostrar = function(id) {
-				var p = productoUtil.obtener(id);
-				var productoId = document.getElementById("productoId");
-				var nombre = document.getElementById("nombre");
-				var precio = document.getElementById("precio");
+				productoUtil.obtener(id, function(p) {
+					var productoId = document.getElementById("productoId");
+					var nombre = document.getElementById("nombre");
+					var precio = document.getElementById("precio");
 
-				if (p) {
-					productoId.value = p.id;
-					nombre.value = p.nombre;				
-					precio.value = p.precio;
-				}
+					if (p) {
+						productoId.value = p.id;
+						nombre.value = p.nombre;				
+						precio.value = p.precio;
+					}
+					
+				});
 			};
 
 			var eliminar = function(id) {
