@@ -47,6 +47,7 @@ public class ProductoRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public void modificar(@PathVariable Integer id, 
 			@RequestBody Producto producto) {
+		producto.setId(id);
 		productoService.modificarProducto(producto);
 	}
 } 
