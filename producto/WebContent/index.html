@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Productos</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/comun.css"> 
+		<link rel="stylesheet" href="css/producto.css"> 
+		<script src="js/productoUtil.js"></script>
+		<script>
+			var productoUtil = new ProductoUtil();
+
+			var initProductoUtil = function() {
+				productoUtil.agregar({ 
+					nombre: "TV", 
+					precio: 500 
+				});
+				var p = {
+					nombre: "Cámara", 
+					precio: 200
+				};
+				productoUtil.agregar(p);
+				productoUtil.agregar({ nombre: "DVD", precio: 300 });
+			};
+
+			var imprimirTabla = function() { // TODO Refactorizar con JSRender
+				var tbody = document.getElementById("tbodyTablaProductos");
+				var productos = productoUtil.obtenerTodos();
+				var html = "";
+
+				for (var i in productos) {
+					var p = productos[i];
+
+					html += "<tr>";
+					html += "<td>" + p.id + "</td>";
+					html += "<td>" + p.nombre + "</td>";
+					html += "<td>" + p.precio + "</td>";
+					html += "<td><a href='#' onclick='mostrar(" + p.id + ")'>mostrar</a></td>";
+					html += "<td><a href='#' onclick='eliminar(" + p.id + ")'>eliminar</a></td>";
+					html += "</tr>";
+				}
+				
+				tbody.innerHTML = html;
+			};
+
+			var mostrar = function(id) {
+				var p = productoUtil.obtener(id);
+				var productoId = document.getElementById("productoId");
+				var nombre = document.getElementById("nombre");
+				var precio = document.getElementById("precio");
+
+				if (p) {
+					productoId.value = p.id;
+					nombre.value = p.nombre;				
+					precio.value = p.precio;
+				}
+			};
+
+			var eliminar = function(id) {
+				productoUtil.eliminar(id);
+				imprimirTabla();
+			};
+
+			var limpiarForm = function() {
+				var productoId = document.getElementById("productoId");
+				var nombre = document.getElementById("nombre");
+				var precio = document.getElementById("precio");
+
+				productoId.value = "";
+				nombre.value = "";				
+				precio.value = "";
+			};
+
+			var guardar = function() {
+				var productoId = document.getElementById("productoId").value;
+				var nombre = document.getElementById("nombre").value;
+				var precio = document.getElementById("precio").value;
+
+				if (nombre && precio) { // TODO Mejorar validaciones
+					var p = {
+						"nombre": nombre, 
+						'precio': precio
+					};
+					if (productoId) { // Modificar
+						p["id"] = productoId;
+						productoUtil.modificar(p);
+					} else { // Agregar
+						productoUtil.agregar(p);
+					}
+	
+					limpiarForm();
+					imprimirTabla();
+				}
+			};
+
+			var cancelar = limpiarForm;
+
+			var init = function() {
+				initProductoUtil();
+				imprimirTabla();
+			};
+		</script>
+	</head>
+	<body onload="init()">
+		<h1>Productos</h1>
+		<input type="hidden" id="productoId">
+		<table id="tabla-form" class="tabla-centrada">
+			<tr>
+				<td>Nombre</td>
+				<td><input type="text" name="nombre" id="nombre"></td>
+			</tr>
+			<tr>
+				<td>Precio</td>
+				<td><input type="number" name="precio" id="precio"></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" value="Cancelar" onclick="cancelar()">
+					<input type="button" value="Guardar" onclick="guardar()">
+				</td>
+			</tr>
+		</table>
+
+		<hr>
+
+		<table id="tabla-productos" class="tabla-centrada tabla-datos">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Precio</th>
+					<th>Mostrar</th>
+					<th>Eliminar</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyTablaProductos">
+			</tbody>
+		</table>
+	</body>
+</html>
